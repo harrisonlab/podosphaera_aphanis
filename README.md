@@ -245,6 +245,14 @@ qsub $ProgDir/submit_SPAdes_HiMem.sh $F_Read $R_Read $OutDir correct
 done
 ``` -->
 
+```bash
+  for RawData in $(ls analysis/genome_alignment/bowtie/P.aphanis/C1/vs_F.ananassa/*.fq.*.gz); do
+    echo $RawData;
+    ProgDir=/home/armita/git_repos/emr_repos/tools/seq_tools/dna_qc;
+    qsub $ProgDir/run_fastqc.sh $RawData;
+  done
+```
+
 
 ```bash
 for StrainPath in $(ls -d analysis/genome_alignment/bowtie/P.aphanis/C1/vs_F.ananassa); do
@@ -253,11 +261,12 @@ Strain=$(echo $StrainPath | rev | cut -f2 -d '/' | rev)
 Organism=$(echo $StrainPath | rev | cut -f3 -d '/' | rev)
 F_Read=$(ls $StrainPath/*.fq.1.gz)
 R_Read=$(ls $StrainPath/*.fq.2.gz)
-OutDir=assembly/spades/$Organism/${Strain}_no_strawberry_meta
+OutDir=assembly/spades/$Organism/${Strain}_no_strawberry
+# OutDir=assembly/spades/$Organism/${Strain}_no_strawberry_meta
 echo $F_Read
 echo $R_Read
-# qsub $ProgDir/submit_SPAdes_HiMem.sh $F_Read $R_Read $OutDir correct
-qsub $ProgDir/submit_metaSPAdes.sh $F_Read $R_Read $OutDir
+qsub $ProgDir/submit_SPAdes_HiMem.sh $F_Read $R_Read $OutDir correct
+# qsub $ProgDir/submit_metaSPAdes.sh $F_Read $R_Read $OutDir
 done
 ```
 
